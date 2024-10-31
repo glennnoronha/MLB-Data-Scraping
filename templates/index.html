@@ -1,0 +1,71 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLB Stats Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>MLB Stats Dashboard</h1>
+    
+    <div id="top-players-chart"></div>
+    <div id="correlation-matrix-chart"></div>
+
+    <script>
+        // Fetch and display top players chart
+        axios.get('/api/top_players')
+            .then(response => {
+                const data = response.data;
+                const playerNames = data.map(player => player.Player);
+                const scores = data.map(player => player.WeightedTotal);
+
+                const topPlayersData = [{
+                    x: playerNames,
+                    y: scores,
+                    type: 'bar'
+                }];
+
+                const layout = {
+                    title: 'Top 15 Players by Weighted Total',
+                    xaxis: { title: 'Player' },
+                    yaxis: { title: 'Weighted Total' }
+                };
+
+                Plotly.newPlot('top-players-chart', topPlayersData, layout);
+            });
+
+        // Fetch and display correlation matrix
+        axios.get('/api/correlation_matrix')
+            .then(response => {
+                const correlationData = response.data;
+
+                const matrixValues = [];
+                const labels = Object.keys(correlationData);
+                
+                labels.forEach(row => {
+                    const rowData = [];
+                    labels.forEach(col => rowData.push(correlationData[row][col]));
+                    matrixValues.push(rowData);
+                });
+
+                const matrixTrace = {
+                    z: matrixValues,
+                    x: labels,
+                    y: labels,
+                    type: 'heatmap',
+                    colorscale: 'Viridis'
+                };
+
+                const matrixLayout = {
+                    title: 'Correlation Matrix of Offensive Stats'
+                };
+
+                Plotly.newPlot('correlation-matrix-chart', [matrixTrace], matrixLayout);
+            });
+    </script>
+</body>
+</html>

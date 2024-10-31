@@ -21,17 +21,16 @@ class MLBStatsAnalyzer:
         self.csv_path = csv_path
         self.min_pa = min_plate_appearances
         self.weights = {
-            'BA': 0.25,   # 25% weight
-            'HR': 0.2,    # 20% weight
-            'RBI': 0.15,  # 15% weight
-            'OBP': 0.1,   # 10% weight
-            'SLG': 0.1,   # 10% weight
-            'SB': 0.1,    # 10% weight
-            'BB': 0.1     # 10% weight
+            'BA': 0.15,   
+            'HR': 0.25,    
+            'RBI': 0.20,  
+            'OBP': 0.15,   
+            'SLG': 0.15,   
+            'SB': 0.15,    
         }
         self.selected_columns = [
             'Player', 'WeightedTotal', 'BA', 'HR', 'RBI', 
-            'OBP', 'SLG', 'OPS', 'SB', 'TB', 'R', 'BB'
+            'OBP', 'SLG', 'OPS', 'SB', 'TB', 'R',
         ]
         self.data = None
         self.data_sorted = None
@@ -88,7 +87,7 @@ class MLBStatsAnalyzer:
         """Plot correlation matrix heatmap."""
         numeric_columns = [
             'WeightedTotal', 'BA', 'HR', 'RBI', 'OBP', 
-            'SLG', 'OPS', 'SB', 'TB', 'R', 'BB'
+            'SLG', 'OPS', 'SB', 'TB', 'R',
         ]
         correlation_matrix = self.data_sorted[numeric_columns].corr()
 
