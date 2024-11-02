@@ -30,7 +30,7 @@ class MLBStatsAnalyzer:
         }
         self.selected_columns = [
             'Player', 'WeightedTotal', 'BA', 'HR', 'RBI', 
-            'OBP', 'SLG', 'OPS', 'SB', 'TB', 'R',
+            'OBP', 'SLG', 'OPS', 'SB', 'TB', 'R'
         ]
         self.data = None
         self.data_sorted = None
@@ -87,7 +87,7 @@ class MLBStatsAnalyzer:
         """Plot correlation matrix heatmap."""
         numeric_columns = [
             'WeightedTotal', 'BA', 'HR', 'RBI', 'OBP', 
-            'SLG', 'OPS', 'SB', 'TB', 'R',
+            'SLG', 'OPS', 'SB', 'TB', 'R'
         ]
         correlation_matrix = self.data_sorted[numeric_columns].corr()
 
